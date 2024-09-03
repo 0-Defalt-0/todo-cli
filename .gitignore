@@ -1,0 +1,4 @@
+todo_venv/
+*.log
+*.pyc
+**/*.env 
