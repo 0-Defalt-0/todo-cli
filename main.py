@@ -1,29 +1,26 @@
 import datetime
-import keyboard
+import os
 
 class List:
     tasks = []
     @staticmethod
     def add_task():
         title = input("Pls enter a title for task: ")
-        description = input("Pls enter description of task: ")
-        tag = input("Enter a tag")
         date = datetime.datetime.now()
         priority = input("pls enter priority for this task: ")
 
-        return Task(title, description, tag, date, priority)
+        return Task(title, date, priority)
 
     @staticmethod
     def view_tasks():
         for items in List.tasks:
-            print(f'{items.title} | {items.description} | {items.date}\n')
+            print(f'{len(items.title) * "-"}')
+            print(items.title)
 
 
 class Task:
-    def __init__(self, title, description, tag, date, priority, status="ongoing"):
+    def __init__(self, title, date, priority="High", status="ongoing"):
         self.title = title
-        self.description = description
-        self.tag = tag
         self.status = status
         self.date = date
         self.priority = priority
@@ -32,14 +29,19 @@ class Task:
 
 
 if __name__ == '__main__':
-    List.add_task()
-    List.add_task()
-    print('WELCOME TO THE TODO CLI App')
-    print('-'*30)
-    List.view_tasks()
-    print('-'*30)
-    print('Press q to quit')
+    print('-'*65)
+    print("|  id  "+"|"+" "*20+"task"+" "*20+"|"+" "*2+"priority"+" "*1+"|")
+    print('-'*65)
+
+    # command center
     while True:
-        if keyboard.is_pressed('q'):
-            print('closing program')
-            break   
+        print('\n\n')
+        user_input = input('.todo: ') 
+        if user_input == 'add_task':
+            List.add_task()
+            os.system('cls')
+            List.view_tasks()
+        elif user_input == 'view_tasks':
+            List.view_tasks()
+        elif user_input == '/quit':
+            break
