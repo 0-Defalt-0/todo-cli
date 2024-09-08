@@ -1,5 +1,6 @@
 import datetime
 import os
+import math
 
 class List:
     tasks = []
@@ -14,11 +15,33 @@ class List:
 
     @staticmethod
     def spacing_algo(text, t):
-        length = int(len(text))
+        length = len(text)
         total_length = t
         total_spaces = int((total_length - length)/2)
-        if (total_length - length) % 2 != 0:
+        if length > total_length:
+            # calculate the total lines it would take to fill the text (44 for each line)
+            lines = math.ceil(length/44)
+            # calculating the spaces that will take to fill the row
+            spaces = int((44 * math.ceil(length/44)) - 44*(length/44))
+            # first 44 letters of the task
+            txt = text[:44] + '|' + ' ' * 11 + '|' + '\n'
+
+            # responsive layout logic
+            
+            ''' The golden formula
+            return text[:total_length] + '|' + ' ' * 11 + '|' + '\n' + '|' + ' ' * 6 + '|' + text[total_length:] + ' ' * spaces
+            '''
+               
+            # calculating remaining text of the task so that it fills up the rows
+            for i in range(2, lines):    
+                txt += '|' + ' ' * 6 + '|' + text[44*(i-1):44*i] + '|' + ' ' * 11 + '|' + '\n'
+            txt += '|' + ' ' * 6 + '|' + text[44*(lines-1):44*lines] + ' ' * spaces
+            return txt
+
+        # This prevents the mislayout when the difference is odd
+        elif (total_length - length) % 2 != 0:
             return ' ' * total_spaces + text + ' ' * (total_spaces+1)
+        # the basic layout if above are not met
         return ' ' * total_spaces + text + ' ' * total_spaces
 
     @staticmethod
