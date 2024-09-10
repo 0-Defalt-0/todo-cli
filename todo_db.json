@@ -1,0 +1,16 @@
+[
+    {
+        "id": 0,
+        "title": "Complete the todo app with all the features today itself cause its the last day",
+        "date": "2024-09-10 12:19:16",
+        "status": "ongoing",
+        "priority": "High"
+    },
+    {
+        "id": 1,
+        "title": "Complete the python practice shit today itself cause its getting late by the day for the real money making thing",
+        "date": "2024-09-10 12:19:45",
+        "status": "ongoing",
+        "priority": "High"
+    }
+]

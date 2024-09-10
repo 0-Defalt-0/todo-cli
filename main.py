@@ -1,17 +1,17 @@
 import datetime
 import os
 import math
+import json
 
 class List:
     tasks = []
     @staticmethod
     def add_task():
-        id = input("Enter a temp id: ")
         title = input("Pls enter a title for task: ")
-        date = datetime.datetime.now()
+        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         priority = input("pls enter priority for this task: ")
 
-        return Task(id, title, date, priority)
+        return Task(title, date, priority)
 
     @staticmethod
     def spacing_algo(text, t):
@@ -57,15 +57,39 @@ class List:
             print('-'*65)
 
 class Task:
-    def __init__(self, id, title, date, priority="High", status="ongoing"):
-        self.id = id
+    id = 0
+    def __init__(self, title, date, priority="High", status="ongoing"):
+        self.id = Task.id
         self.title = title
         self.status = status
         self.date = date
         self.priority = priority
 
-        List.tasks.append(self)
+        # keep increamenting so we get unique ids for each task
+        Task.id += 1
 
+        # saving it to the json database
+        if os.path.exists('todo_db.json'):
+            with open('todo_db.json', 'r') as f:
+                try:
+                    content = f.read()
+                    tasks = json.loads(content)
+                except json.JSONDecodeError:
+                    tasks = []
+        else:
+            tasks = []
+        
+        #append the new task to list
+        tasks.append({
+            'id':self.id,
+            'title':self.title,
+            'date':self.date,
+            'status':self.status,
+            'priority':self.priority
+        })
+
+        with open('todo_db.json', 'w') as f:
+            json.dump(tasks, f, indent=4)
 
 if __name__ == '__main__':
     print('-'*65)
