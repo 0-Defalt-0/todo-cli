@@ -2,4 +2,4 @@ todo_venv/
 *.log
 *.pyc
 **/*.env 
-.json
+todo_db.json
