@@ -111,9 +111,7 @@ class Task:
             json.dump(tasks, f, indent=4)
 
 if __name__ == '__main__':
-    print('-'*65)
-    print("|  id  "+"|"+" "*20+"task"+" "*20+"|"+" "*2+"priority"+" "*1+"|")
-    print('-'*65)
+    List.view_tasks()
 
     # command center
     while True:
@@ -128,3 +126,4 @@ if __name__ == '__main__':
         elif user_input == '/quit':
             os.system('cls')
             break
+
