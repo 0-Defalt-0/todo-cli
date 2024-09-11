@@ -46,20 +46,39 @@ class List:
 
     @staticmethod
     def view_tasks():
+        #loading data from json db
+        with open('todo_db.json') as f:
+            data = json.load(f)
+
         print('-'*65)
         print("|  id  "+"|"+" "*20+"task"+" "*20+"|"+" "*2+"priority"+" "*1+"|")
         print('-'*65)
         id_spaces = 6
         task_spaces = 44
         priority_spaces = 11
-        for items in List.tasks:
-            print('|' + List.spacing_algo(f"{items.id}", id_spaces)+'|'+List.spacing_algo(f"{items.title}", task_spaces)+'|'+List.spacing_algo(f"{items.priority}", priority_spaces)+'|')
+        for items in data:
+            print('|' + List.spacing_algo(f"{items.get('id')}", id_spaces)+'|'+List.spacing_algo(f"{items.get('title')}", task_spaces)+'|'+List.spacing_algo(f"{items.get('priority')}", priority_spaces)+'|')
             print('-'*65)
 
 class Task:
+    # getting unique ids by checking existing from db
+    if os.path.exists('todo_db.json'):
+        with open('todo_db.json','r') as f:
+            try:
+                content = f.read()
+                data = json.loads(content)
+            except:
+                data = []
+    else:
+        data = []
+
     id = 0
+    ids = [items.get('id') for items in data]
     def __init__(self, title, date, priority="High", status="ongoing"):
-        self.id = Task.id
+        if Task.id in Task.ids:
+            self.id = max(Task.ids) + 1
+        else:
+            self.id = Task.id
         self.title = title
         self.status = status
         self.date = date
