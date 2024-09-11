@@ -60,6 +60,18 @@ class List:
             print('|' + List.spacing_algo(f"{items.get('id')}", id_spaces)+'|'+List.spacing_algo(f"{items.get('title')}", task_spaces)+'|'+List.spacing_algo(f"{items.get('priority')}", priority_spaces)+'|')
             print('-'*65)
 
+    def remove_task():
+        inp = input('pls enter the id of the task you want to remove: ')
+        
+        inp = int(inp)
+        with open('todo_db.json') as f:
+            data = json.load(f)
+        
+        new_data = [item for item in data if item.get('id') != inp]
+            
+        with open('todo_db.json', 'w') as f:
+            json.dump(new_data, f, indent=4)
+
 class Task:
     # getting unique ids by checking existing from db
     if os.path.exists('todo_db.json'):
@@ -121,8 +133,10 @@ if __name__ == '__main__':
             List.add_task()
             os.system('cls')
             List.view_tasks()
-        elif user_input == 'view_tasks':
+        elif user_input == 'view_task':
             List.view_tasks()
+        elif user_input == 'remove_task':
+            List.remove_task()
         elif user_input == '/quit':
             os.system('cls')
             break
