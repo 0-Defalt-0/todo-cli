@@ -67,10 +67,18 @@ class List:
         with open('todo_db.json') as f:
             data = json.load(f)
         
-        new_data = [item for item in data if item.get('id') != inp]
-            
-        with open('todo_db.json', 'w') as f:
-            json.dump(new_data, f, indent=4)
+        try:
+            new_data = [item for item in data if item.get('id') != inp]
+
+            if len(new_data) == len(data):
+                print("Task not found no changes made")
+            else:               
+                with open('todo_db.json', 'w') as f:
+                    json.dump(new_data, f, indent=4)
+                os.system('cls')
+                List.view_tasks()
+        except ValueError:
+            print("Invalid input pls enter a numeric id")
 
 class Task:
     # getting unique ids by checking existing from db
